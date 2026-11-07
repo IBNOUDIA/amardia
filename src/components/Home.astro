@@ -4,20 +4,34 @@ import Base from '../layouts/Base.astro';
 import { content, links } from '../content';
 import acafisShot from '../assets/acafis-mentor.webp';
 import netbelsetShot from '../assets/netbelset.webp';
-import portrait from '../assets/amar.jpg';
+import netbelsetPhone from '../assets/netbelset-phone.webp';
+import portrait from '../assets/amar-cut.webp';
 
 interface Props { lang: 'fr' | 'en' }
 const { lang } = Astro.props;
 const t = content[lang];
 const p = t.projects;
 const year = new Date().getFullYear();
+
+// One simple line icon per ACAFIS decision, in the same order as the content.
+const decisionIcons = [
+  'M7 11V8a5 5 0 0 1 10 0v3M6 11h12a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z',
+  'M15 7a4 4 0 1 1-3.5 5.9L4 20.500 3.500 17l1.800-.300.300-1.800 1.800-.300L11 11.100A4 4 0 0 1 15 7Zm1.500 2.500h.010',
+  'M4 5h16v11H9l-5 4V5Zm4 5h.010M12 10h.010M16 10h.010',
+  'M12 3v18M16.500 7H10a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6H7',
+];
+const skillIcons = [
+  'M4 6h16v12H4V6Zm4 4 3 2-3 2m5 0h3',
+  'M12 4a8 8 0 1 0 8 8M12 8v4l3 2M17 3v5h5',
+  'M5 4h14v5H5V4Zm0 5v11h14V9M9 14h6',
+];
 ---
 <Base lang={lang} title={t.meta.title} description={t.meta.description}>
   <a class="skip" href="#main">{lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a>
 
   <header class="top">
     <div class="wrap top-row">
-      <a class="brand" href={lang === 'fr' ? '/' : '/en/'}>Amar Dia</a>
+      <a class="brand" href={lang === 'fr' ? '/' : '/en/'}><span aria-hidden="true">A</span>Amar Dia</a>
       <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
         <a href="#projets">{t.nav.projects}</a>
         <a href="#competences">{t.nav.skills}</a>
@@ -32,54 +46,86 @@ const year = new Date().getFullYear();
   </header>
 
   <main id="main">
-    <section class="hero wrap">
-      <p class="label">{t.hero.kicker}</p>
-      <h1>{t.hero.title}</h1>
-      <p class="lead">{t.hero.lead}</p>
-      <div class="actions">
-        <a class="btn" href="#projets">{t.hero.primary}</a>
-        <a class="btn btn-ghost" href="#contact">{t.hero.secondary}</a>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <p class="label">{t.hero.kicker}</p>
+          <h1 set:html={t.hero.title} />
+          <p class="lead">{t.hero.lead}</p>
+          <div class="actions">
+            <a class="btn" href="#projets">{t.hero.primary}</a>
+            <a class="btn btn-ghost" href="#contact">{t.hero.secondary}</a>
+          </div>
+          <p class="status"><span aria-hidden="true"></span>{t.hero.status}</p>
+        </div>
+        <figure class="portrait">
+          <div class="arch">
+            <Image src={portrait} alt="Amar Dia" widths={[420, 640, 860]} sizes="(max-width: 960px) 78vw, 440px" loading="eager" fetchpriority="high" decoding="sync" />
+          </div>
+          <figcaption class="float float-a">{t.hero.place}</figcaption>
+          <p class="float float-b">{t.hero.badge}</p>
+        </figure>
       </div>
-      <p class="status"><span aria-hidden="true"></span>{t.hero.status}</p>
-      <dl class="proof">
+    </section>
+
+    <section class="proof-band" aria-label={lang === 'fr' ? 'En bref' : 'At a glance'}>
+      <dl class="wrap proof">
         {t.proof.map((item) => (
           <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
         ))}
       </dl>
     </section>
 
-    <section id="projets" class="section">
+    <section id="projets" class="section projects">
       <div class="wrap">
-        <p class="label">{p.label}</p>
-        <h2>{p.title}</h2>
+        <div class="heading" data-reveal>
+          <p class="label">{p.label}</p>
+          <h2>{p.title}</h2>
+        </div>
 
-        <article class="featured">
+        <article class="featured" data-reveal>
           <div class="featured-head">
-            <div>
+            <div class="featured-text">
               <p class="tag">{p.featured}</p>
               <h3>{p.acafis.name}</h3>
               <p class="tagline">{p.acafis.tagline}</p>
               <p>{p.acafis.summary}</p>
               <div class="links">
-                <a class="btn" href={links.acafis} target="_blank" rel="noopener">{p.visit}</a>
-                <a class="btn btn-ghost" href={links.acafisCode} target="_blank" rel="noopener">{p.code}</a>
+                <a class="btn btn-light" href={links.acafis} target="_blank" rel="noopener">{p.visit}</a>
+                <a class="btn btn-outline-light" href={links.acafisCode} target="_blank" rel="noopener">{p.code}</a>
               </div>
             </div>
-            <Image class="shot" src={acafisShot} alt={p.acafis.alt} widths={[640, 1060]} sizes="(max-width: 960px) 100vw, 620px" loading="eager" />
+            <div class="browser">
+              <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span><em>acafis.ca</em></div>
+              <Image src={acafisShot} alt={p.acafis.alt} widths={[640, 1060]} sizes="(max-width: 960px) 92vw, 620px" />
+            </div>
           </div>
           <dl class="facts">
             {p.acafis.facts.map(([value, label]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
           </dl>
           <h4>{p.decisions}</h4>
           <div class="decisions">
-            {p.acafis.decisions.map(([title, body]) => <div><h5>{title}</h5><p>{body}</p></div>)}
+            {p.acafis.decisions.map(([title, body], i) => (
+              <div class="decision">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d={decisionIcons[i]} /></svg>
+                <div><h5>{title}</h5><p>{body}</p></div>
+              </div>
+            ))}
           </div>
-          <ul class="chips" aria-label="Stack">{p.acafis.stack.map((s) => <li>{s}</li>)}</ul>
+          <ul class="chips chips-dark" aria-label="Stack">{p.acafis.stack.map((s) => <li>{s}</li>)}</ul>
         </article>
 
-        <article class="project">
-          <Image class="shot" src={netbelsetShot} alt={p.netbelset.alt} widths={[640, 1200]} sizes="(max-width: 960px) 100vw, 580px" />
-          <div>
+        <article class="project" data-reveal>
+          <div class="devices">
+            <div class="browser browser-soft">
+              <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span><em>netbelset.ca</em></div>
+              <Image src={netbelsetShot} alt={p.netbelset.alt} widths={[640, 1200]} sizes="(max-width: 960px) 92vw, 600px" />
+            </div>
+            <div class="phone">
+              <Image src={netbelsetPhone} alt="" widths={[220, 400]} sizes="170px" />
+            </div>
+          </div>
+          <div class="project-text">
             <p class="tag">{p.netbelset.status}</p>
             <h3>{p.netbelset.name}</h3>
             <p class="tagline">{p.netbelset.tagline}</p>
@@ -92,13 +138,19 @@ const year = new Date().getFullYear();
       </div>
     </section>
 
-    <section id="competences" class="section alt">
+    <section id="competences" class="section skills-section">
       <div class="wrap">
-        <p class="label">{t.skills.label}</p>
-        <h2>{t.skills.title}</h2>
+        <div class="heading" data-reveal>
+          <p class="label">{t.skills.label}</p>
+          <h2>{t.skills.title}</h2>
+        </div>
         <div class="skills">
-          {t.skills.groups.map((g) => (
-            <div><h3>{g.name}</h3><ul class="chips">{g.items.map((i) => <li>{i}</li>)}</ul></div>
+          {t.skills.groups.map((g, i) => (
+            <div class="skill-card" data-reveal>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d={skillIcons[i]} /></svg>
+              <h3>{g.name}</h3>
+              <ul class="chips">{g.items.map((item) => <li>{item}</li>)}</ul>
+            </div>
           ))}
         </div>
       </div>
@@ -106,10 +158,9 @@ const year = new Date().getFullYear();
 
     <section id="parcours" class="section">
       <div class="wrap path">
-        <div class="path-intro">
+        <div class="path-intro" data-reveal>
           <p class="label">{t.path.label}</p>
           <h2>{t.path.title}</h2>
-          <Image class="portrait" src={portrait} alt="Amar Dia" width={132} height={132} densities={[1, 2]} />
           <p>{t.path.intro}</p>
           <dl class="extras">
             {t.path.extras.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
@@ -117,7 +168,7 @@ const year = new Date().getFullYear();
         </div>
         <ol class="timeline">
           {t.path.items.map((i) => (
-            <li>
+            <li data-reveal>
               <p class="when">{i.when}</p>
               <h3>{i.what}</h3>
               <p class="where">{i.where}</p>
@@ -130,7 +181,7 @@ const year = new Date().getFullYear();
 
     <section id="contact" class="section contact">
       <div class="wrap contact-grid">
-        <div>
+        <div data-reveal>
           <p class="label">{t.contact.label}</p>
           <h2>{t.contact.title}</h2>
           <p class="lead">{t.contact.lead}</p>
@@ -142,7 +193,7 @@ const year = new Date().getFullYear();
             <li><a href={t.cvUrl} target="_blank" rel="noopener">{t.contact.cvLabel}</a></li>
           </ul>
         </div>
-        <form id="contact-form" action={links.formspree} method="POST" data-sending={t.contact.sending} data-sent={t.contact.sent} data-error={t.contact.error}>
+        <form id="contact-form" data-reveal action={links.formspree} method="POST" data-sending={t.contact.sending} data-sent={t.contact.sent} data-error={t.contact.error}>
           <label>{t.contact.name}<input name="name" autocomplete="name" required maxlength="120" /></label>
           <label>{t.contact.email}<input type="email" name="email" autocomplete="email" required maxlength="160" /></label>
           <label>{t.contact.message}<textarea name="message" rows="5" required maxlength="4000"></textarea></label>
@@ -155,12 +206,31 @@ const year = new Date().getFullYear();
     </section>
   </main>
 
-  <footer class="wrap foot">
-    <span>© {year} Amar Dia</span>
-    <span>{t.footer}</span>
+  <footer class="foot">
+    <div class="wrap foot-row">
+      <span>© {year} Amar Dia</span>
+      <span>{t.footer}</span>
+    </div>
   </footer>
 
   <script>
+    // Sections fade in once. Without JavaScript or with reduced motion, everything stays visible.
+    const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !calm) {
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      }, { rootMargin: '0px 0px -8% 0px' });
+      items.forEach((item) => {
+        item.classList.add('will-reveal');
+        observer.observe(item);
+      });
+    }
+
     const form = document.querySelector<HTMLFormElement>('#contact-form');
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();

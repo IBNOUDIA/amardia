@@ -24,11 +24,13 @@ export const content = {
     nav: { projects: 'Projets', skills: 'Compétences', path: 'Parcours', contact: 'Contact', cv: 'CV', switchLabel: 'EN', switchHref: '/en/', switchName: 'Read in English' },
     hero: {
       kicker: 'Développeur full stack · Montréal',
-      title: "Des applications complètes, de la base de données à l'écran.",
+      title: "Des applications complètes, <em>de la base de données à l'écran.</em>",
       lead: "Je m'appelle Amar Dia. J'analyse le besoin, je modélise les données, je développe et je mets en ligne. Mes projets répondent à de vrais besoins : une association au service des familles et une entreprise de commerce en ligne.",
       primary: 'Voir mes projets',
       secondary: 'Me contacter',
       status: 'Ouvert aux postes et aux mandats en développement',
+      place: 'Montréal · Dakar',
+      badge: 'Assistants IA en français, en anglais et en wolof',
     },
     proof: [
       { value: '2', label: 'plateformes web en ligne' },
@@ -129,11 +131,13 @@ export const content = {
     nav: { projects: 'Projects', skills: 'Skills', path: 'Background', contact: 'Contact', cv: 'Resume', switchLabel: 'FR', switchHref: '/', switchName: 'Lire en français' },
     hero: {
       kicker: 'Full stack developer · Montreal',
-      title: 'Complete applications, from the database to the screen.',
+      title: 'Complete applications, <em>from the database to the screen.</em>',
       lead: "I'm Amar Dia. I analyze the need, model the data, build the application and put it online. My projects meet real needs: an association serving families and an online commerce business.",
       primary: 'See my projects',
       secondary: 'Contact me',
       status: 'Open to development jobs and contracts',
+      place: 'Montreal · Dakar',
+      badge: 'AI assistants in French, English and Wolof',
     },
     proof: [
       { value: '2', label: 'web platforms online' },
