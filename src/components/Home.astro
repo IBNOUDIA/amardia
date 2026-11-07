@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { content, links } from '../content';
+import acafisShot from '../assets/acafis-mentor.webp';
+import netbelsetShot from '../assets/netbelset.webp';
+import portrait from '../assets/amar.jpg';
+
+interface Props { lang: 'fr' | 'en' }
+const { lang } = Astro.props;
+const t = content[lang];
+const p = t.projects;
+const year = new Date().getFullYear();
+---
+<Base lang={lang} title={t.meta.title} description={t.meta.description}>
+  <a class="skip" href="#main">{lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href={lang === 'fr' ? '/' : '/en/'}>Amar Dia</a>
+      <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+        <a href="#projets">{t.nav.projects}</a>
+        <a href="#competences">{t.nav.skills}</a>
+        <a href="#parcours">{t.nav.path}</a>
+        <a href="#contact">{t.nav.contact}</a>
+      </nav>
+      <div class="top-actions">
+        <a class="lang" href={t.nav.switchHref} hreflang={lang === 'fr' ? 'en' : 'fr'} aria-label={t.nav.switchName}>{t.nav.switchLabel}</a>
+        <a class="btn btn-small" href={t.cvUrl} target="_blank" rel="noopener">{t.nav.cv}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <p class="label">{t.hero.kicker}</p>
+      <h1>{t.hero.title}</h1>
+      <p class="lead">{t.hero.lead}</p>
+      <div class="actions">
+        <a class="btn" href="#projets">{t.hero.primary}</a>
+        <a class="btn btn-ghost" href="#contact">{t.hero.secondary}</a>
+      </div>
+      <p class="status"><span aria-hidden="true"></span>{t.hero.status}</p>
+      <dl class="proof">
+        {t.proof.map((item) => (
+          <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
+        ))}
+      </dl>
+    </section>
+
+    <section id="projets" class="section">
+      <div class="wrap">
+        <p class="label">{p.label}</p>
+        <h2>{p.title}</h2>
+
+        <article class="featured">
+          <div class="featured-head">
+            <div>
+              <p class="tag">{p.featured}</p>
+              <h3>{p.acafis.name}</h3>
+              <p class="tagline">{p.acafis.tagline}</p>
+              <p>{p.acafis.summary}</p>
+              <div class="links">
+                <a class="btn" href={links.acafis} target="_blank" rel="noopener">{p.visit}</a>
+                <a class="btn btn-ghost" href={links.acafisCode} target="_blank" rel="noopener">{p.code}</a>
+              </div>
+            </div>
+            <Image class="shot" src={acafisShot} alt={p.acafis.alt} widths={[640, 1060]} sizes="(max-width: 960px) 100vw, 620px" loading="eager" />
+          </div>
+          <dl class="facts">
+            {p.acafis.facts.map(([value, label]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
+          </dl>
+          <h4>{p.decisions}</h4>
+          <div class="decisions">
+            {p.acafis.decisions.map(([title, body]) => <div><h5>{title}</h5><p>{body}</p></div>)}
+          </div>
+          <ul class="chips" aria-label="Stack">{p.acafis.stack.map((s) => <li>{s}</li>)}</ul>
+        </article>
+
+        <article class="project">
+          <Image class="shot" src={netbelsetShot} alt={p.netbelset.alt} widths={[640, 1200]} sizes="(max-width: 960px) 100vw, 580px" />
+          <div>
+            <p class="tag">{p.netbelset.status}</p>
+            <h3>{p.netbelset.name}</h3>
+            <p class="tagline">{p.netbelset.tagline}</p>
+            <p>{p.netbelset.summary}</p>
+            <ul class="ticks">{p.netbelset.highlights.map((h) => <li>{h}</li>)}</ul>
+            <ul class="chips" aria-label="Stack">{p.netbelset.stack.map((s) => <li>{s}</li>)}</ul>
+            <div class="links"><a class="btn" href={links.netbelset} target="_blank" rel="noopener">{p.visit}</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="competences" class="section alt">
+      <div class="wrap">
+        <p class="label">{t.skills.label}</p>
+        <h2>{t.skills.title}</h2>
+        <div class="skills">
+          {t.skills.groups.map((g) => (
+            <div><h3>{g.name}</h3><ul class="chips">{g.items.map((i) => <li>{i}</li>)}</ul></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="parcours" class="section">
+      <div class="wrap path">
+        <div class="path-intro">
+          <p class="label">{t.path.label}</p>
+          <h2>{t.path.title}</h2>
+          <Image class="portrait" src={portrait} alt="Amar Dia" width={132} height={132} densities={[1, 2]} />
+          <p>{t.path.intro}</p>
+          <dl class="extras">
+            {t.path.extras.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+          </dl>
+        </div>
+        <ol class="timeline">
+          {t.path.items.map((i) => (
+            <li>
+              <p class="when">{i.when}</p>
+              <h3>{i.what}</h3>
+              <p class="where">{i.where}</p>
+              <p>{i.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="wrap contact-grid">
+        <div>
+          <p class="label">{t.contact.label}</p>
+          <h2>{t.contact.title}</h2>
+          <p class="lead">{t.contact.lead}</p>
+          <ul class="contact-list">
+            <li><a href={`mailto:${links.email}`}>{links.email}</a></li>
+            <li><a href={links.phoneHref}>{links.phone}</a></li>
+            <li><a href={links.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href={links.github} target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href={t.cvUrl} target="_blank" rel="noopener">{t.contact.cvLabel}</a></li>
+          </ul>
+        </div>
+        <form id="contact-form" action={links.formspree} method="POST" data-sending={t.contact.sending} data-sent={t.contact.sent} data-error={t.contact.error}>
+          <label>{t.contact.name}<input name="name" autocomplete="name" required maxlength="120" /></label>
+          <label>{t.contact.email}<input type="email" name="email" autocomplete="email" required maxlength="160" /></label>
+          <label>{t.contact.message}<textarea name="message" rows="5" required maxlength="4000"></textarea></label>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button class="btn" type="submit">{t.contact.send}</button>
+          <p class="form-status" role="status"></p>
+          <p class="privacy">{t.contact.privacy}</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <span>© {year} Amar Dia</span>
+    <span>{t.footer}</span>
+  </footer>
+
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#contact-form');
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('.form-status')!;
+      const button = form.querySelector('button')!;
+      button.disabled = true;
+      status.textContent = form.dataset.sending ?? '';
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        form.reset();
+        status.textContent = form.dataset.sent ?? '';
+      } catch {
+        status.textContent = form.dataset.error ?? '';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</Base>
