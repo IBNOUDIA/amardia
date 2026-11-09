@@ -62,7 +62,7 @@ Développeur full stack diplômé d'une AEC Analyste-programmeur (CDI Collège).
 
 - **AEC Analyste-programmeur**, CDI Collège, Montréal, 2024 à 2026
 - **Lean Six Sigma White Belt**, 2023
-- **MARPPP**, méthode de planification participative de projets
+- **MARPPP**, méthode active de recherche participative en planification de projet pédagogique
 
 ## Engagement
 

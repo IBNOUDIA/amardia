@@ -62,7 +62,7 @@ Full stack developer with an Analyst-Programmer AEC from CDI College. I designed
 
 - **AEC, Analyst-Programmer**, CDI College, Montreal, 2024 to 2026
 - **Lean Six Sigma White Belt**, 2023
-- **MARPPP**, participatory project planning method
+- **MARPPP**, active participatory research method for educational project planning
 
 ## Community involvement
 
